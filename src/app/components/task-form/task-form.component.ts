@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
+import { Task } from '../../interfaces/task';
+import { TaskService } from 'src/app/services/task-service';
 
 @Component({
   selector: 'app-task-form',
@@ -8,7 +10,17 @@ import { NavController } from '@ionic/angular';
   styleUrls: ['./task-form.component.scss'],
 })
 export class TaskFormComponent implements OnInit {
-  constructor(private navCtrl: NavController) {}
+  task: Task = {
+    id: 0,
+    title: '',
+    description: '',
+    priority_level: 'Low',
+  };
+
+  constructor(
+    private navCtrl: NavController,
+    private taskService: TaskService
+  ) {}
 
   ngOnInit() {}
 
@@ -17,6 +29,14 @@ export class TaskFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Form submitted!');
+    console.log('Form submitted!', this.task);
+    this.taskService.addTask(this.task).subscribe(
+      (result: Task) => {
+        console.log('Task added!', result);
+      },
+      (error) => {
+        console.log('Error adding task', error);
+      }
+    );
   }
 }
