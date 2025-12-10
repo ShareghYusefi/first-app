@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-explore-container',
@@ -7,7 +8,11 @@ import { Component, Input } from '@angular/core';
   standalone: false,
 })
 export class ExploreContainerComponent {
-
   @Input() name?: string;
 
+  constructor(private router: Router) {}
+
+  navigateToHome() {
+    this.router.navigate(['/tabs/tab2']);
+  }
 }
