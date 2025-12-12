@@ -48,6 +48,8 @@ export class TaskFormComponent implements OnInit {
     this.taskService.addTask(this.taskForm.value).subscribe(
       (result: Task) => {
         console.log('Task added!', result);
+        this.taskForm.reset();
+        this.closeForm();
       },
       (error) => {
         console.log('Error adding task', error);

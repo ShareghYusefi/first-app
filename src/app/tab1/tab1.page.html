@@ -11,11 +11,27 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-list>
+    @for (task of tasks; track task; let index = $index) {
+    <ion-item>
+      <ion-label>{{ task.title }}</ion-label>
+      <ion-toolbar>
+        <ion-buttons slot="end">
+          <ion-button>
+            <ion-icon name="pencil-outline" color="success"></ion-icon>
+          </ion-button>
+          <ion-button>
+            <ion-icon name="trash-outline" color="danger"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-item>
+    }
+  </ion-list>
+
   <ion-fab slot="fixed" horizontal="end" vertical="bottom">
     <ion-fab-button (click)="openForm()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>
-
-  <app-explore-container name="List of Tasks"></app-explore-container>
 </ion-content>
