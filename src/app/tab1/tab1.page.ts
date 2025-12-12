@@ -37,4 +37,12 @@ export class Tab1Page implements OnInit {
   openForm() {
     this.navCtrl.navigateForward('/tabs/task-form');
   }
+
+  delete(id: number) {
+    this.taskService.deleteTask(id).subscribe((result: Task) => {
+      console.log('Task Deleted!', result);
+      // update the tasks array
+      this.tasks = this.tasks.filter((t) => t.id !== result.id);
+    });
+  }
 }

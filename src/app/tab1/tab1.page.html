@@ -12,7 +12,7 @@
   </ion-header>
 
   <ion-list>
-    @for (task of tasks; track task; let index = $index) {
+    @for (task of tasks; track task.id;) {
     <ion-item>
       <ion-label>{{ task.title }}</ion-label>
       <ion-toolbar>
@@ -20,7 +20,7 @@
           <ion-button>
             <ion-icon name="pencil-outline" color="success"></ion-icon>
           </ion-button>
-          <ion-button>
+          <ion-button (click)="delete(task.id)">
             <ion-icon name="trash-outline" color="danger"></ion-icon>
           </ion-button>
         </ion-buttons>
