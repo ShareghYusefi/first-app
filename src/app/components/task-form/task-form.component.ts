@@ -4,6 +4,7 @@ import { Task } from '../../interfaces/task';
 import { TaskService } from 'src/app/services/task-service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ToastService } from 'src/app/services/toast-service';
 
 @Component({
   selector: 'app-task-form',
@@ -18,7 +19,8 @@ export class TaskFormComponent implements OnInit {
     private navCtrl: NavController,
     private taskService: TaskService,
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private toast: ToastService
   ) {}
 
   ngOnInit() {
@@ -86,7 +88,7 @@ export class TaskFormComponent implements OnInit {
   updateTask() {
     this.taskService.updateTask(this.taskForm.value).subscribe(
       (result: Task) => {
-        console.log('Task updated: ', result);
+        this.toast.show('top', 'Task updated!');
       },
       (error) => {
         console.log('Error updating task', error);
@@ -97,7 +99,7 @@ export class TaskFormComponent implements OnInit {
   addTask() {
     this.taskService.addTask(this.taskForm.value).subscribe(
       (result: Task) => {
-        console.log('Task added!', result);
+        this.toast.show('top', `${result.title} added!`);
       },
       (error) => {
         console.log('Error adding task', error);
