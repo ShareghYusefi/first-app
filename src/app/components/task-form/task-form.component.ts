@@ -3,6 +3,7 @@ import { NavController } from '@ionic/angular';
 import { Task } from '../../interfaces/task';
 import { TaskService } from 'src/app/services/task-service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-task-form',
@@ -16,7 +17,8 @@ export class TaskFormComponent implements OnInit {
   constructor(
     private navCtrl: NavController,
     private taskService: TaskService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -25,6 +27,29 @@ export class TaskFormComponent implements OnInit {
       title: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required]],
       priority_level: ['Low', [Validators.required]],
+    });
+
+    // get the id of task from url
+    this.route.paramMap.subscribe((params) => {
+      // check if id is present in the URL parameter
+      let id = params.get('id');
+      // check if id is truthy, then get task data
+      if (id) {
+        this.taskService.getTask(parseInt(id)).subscribe(
+          (task: Task) => {
+            // update the task form with data
+            this.taskForm.patchValue({
+              id: task.id,
+              title: task.title,
+              description: task.description,
+              priority_level: task.priority_level,
+            });
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     });
   }
 
@@ -44,12 +69,35 @@ export class TaskFormComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('Form submitted!', this.taskForm.value);
+    if (this.taskForm.invalid) return;
+
+    // check if we ahve an id in URL
+    let id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.updateTask();
+    } else {
+      this.addTask();
+    }
+    // reset form and close
+    this.taskForm.reset();
+    this.closeForm();
+  }
+
+  updateTask() {
+    this.taskService.updateTask(this.taskForm.value).subscribe(
+      (result: Task) => {
+        console.log('Task updated: ', result);
+      },
+      (error) => {
+        console.log('Error updating task', error);
+      }
+    );
+  }
+
+  addTask() {
     this.taskService.addTask(this.taskForm.value).subscribe(
       (result: Task) => {
         console.log('Task added!', result);
-        this.taskForm.reset();
-        this.closeForm();
       },
       (error) => {
         console.log('Error adding task', error);

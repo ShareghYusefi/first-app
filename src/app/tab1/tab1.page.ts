@@ -34,8 +34,10 @@ export class Tab1Page implements OnInit {
     this.loadTasks();
   }
 
-  openForm() {
-    this.navCtrl.navigateForward('/tabs/task-form');
+  // ? makes the parameter optional
+  // ?? null coelecing which renders the left hand side if not null or undefined, otherwise the right hand side.
+  openForm(id?: number) {
+    this.navCtrl.navigateForward('/tabs/task-form/' + (id ?? ''));
   }
 
   delete(id: number) {

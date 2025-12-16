@@ -17,7 +17,7 @@
       <ion-label>{{ task.title }}</ion-label>
       <ion-toolbar>
         <ion-buttons slot="end">
-          <ion-button>
+          <ion-button (click)="openForm(task.id)">
             <ion-icon name="pencil-outline" color="success"></ion-icon>
           </ion-button>
           <ion-button (click)="delete(task.id)">
