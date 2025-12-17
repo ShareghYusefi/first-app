@@ -47,4 +47,15 @@ export class Tab1Page implements OnInit {
       this.tasks = this.tasks.filter((t) => t.id !== result.id);
     });
   }
+
+  getColor(priority: string) {
+    switch (priority) {
+      case 'High':
+        return 'danger';
+      case 'Medium':
+        return 'warning';
+      default:
+        return 'light';
+    }
+  }
 }

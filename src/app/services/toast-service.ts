@@ -7,18 +7,13 @@ import { ToastController } from '@ionic/angular';
 export class ToastService {
   constructor(private toastCtrl: ToastController) {}
 
-  show(position: 'top' | 'middle' | 'bottom', message: string) {
-    this.toastCtrl
-      .create({
-        message: message,
-        duration: 1500,
-        position: position,
-      })
-      .then((toast) => {
-        toast.present();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  async show(position: 'top' | 'middle' | 'bottom', message: string) {
+    const toast = await this.toastCtrl.create({
+      message: message,
+      duration: 1500,
+      position: position,
+    });
+
+    await toast.present();
   }
 }
