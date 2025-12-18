@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 import { Task } from '../interfaces/task';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
-  API_URL = 'http://localhost:3000';
+  API_URL = environment.api_url;
 
   // We can use an instance of HttpClient object to make API calls for data
   // This module does need to be imported via provideHttpClient
